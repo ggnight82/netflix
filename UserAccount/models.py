@@ -1,5 +1,7 @@
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, AbstractBaseUser
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self,email,username,rating,first_name,last_name,password=None):
@@ -7,12 +9,14 @@ class MyUserManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username,
             rating=rating,
+            first_name=first_name,
+            last_name=last_name
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,email,username,password,rating,first_name,last_name,is_admin,is_superuser):
+    def create_superuser(self,email,username,password,rating,first_name,last_name):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
@@ -21,7 +25,7 @@ class MyUserManager(BaseUserManager):
             last_name = last_name,
             password = password
         )
-
+        user.is_staff = True
         user.is_admin = True
         user.is_superuser = True
 
@@ -45,8 +49,9 @@ class User(AbstractBaseUser):
     last_login =        models.DateField(verbose_name='last login', auto_now=True)
     is_admin =          models.BooleanField(default=False)
     is_active =         models.BooleanField(default=True)
+    is_staff =          models.BooleanField(default=False)
     is_superuser =      models.BooleanField(default=False)
-    rating =            models.FloatField(max_length=1,choices=RATING)
+    rating =            models.CharField(max_length=1,choices=RATING)
     first_name =        models.CharField(verbose_name='first_name', max_length=30)
     last_name =         models.CharField(verbose_name='last_name', max_length=30)
 
@@ -57,3 +62,9 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' ' + self.username
+
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser

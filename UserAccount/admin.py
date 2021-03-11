@@ -1,7 +1,9 @@
-"""
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from . models import User
+
+
 
 class AccountAdmin(UserAdmin):
     list_display = ('email', 'username','rating','pk', 'date_joined', 'last_login', 'is_admin', 'is_superuser',)
@@ -12,4 +14,4 @@ class AccountAdmin(UserAdmin):
     list_filter = ()
     fieldsets = ()
 
-admin.site.register(User)
+admin.site.register(User,AccountAdmin)

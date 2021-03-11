@@ -22,7 +22,9 @@ urlpatterns = [
     path('browse/',include('browse.urls')),
     path('account/',include('account.urls')),
     path('rest-auth/',include('rest_auth.urls')),
-    path('rest-auth/signup',include('rest_auth.registration.urls'))
+    path('rest-auth/signup',include('rest_auth.registration.urls')),
+
+    path('api-auth/',include("rest_framework.urls"))
    
 
 ]

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-
+import my_database_setting
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,9 +41,10 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
-    'main',
     'browse',
-   
+    'UserAccount',
+    
+
     'rest_framework',
     'rest_framework.authtoken',
 
@@ -54,6 +55,14 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
+
+
+AUTH_USER_MODEL = 'UserAccount.User'
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'UserAccount.serializers.UserAccountRegistrationSerializer'
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -89,12 +98,8 @@ WSGI_APPLICATION = 'Netflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = my_database_setting.DATABASES
+SECRET_KEY = my_database_setting.SECRET_KEY
 
 
 # Password validation
@@ -140,3 +145,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)

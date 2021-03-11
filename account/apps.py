@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class AccountConfig(AppConfig):
+class UserAccountConfig(AppConfig):
     name = 'account'
+    label = 'user_account'
