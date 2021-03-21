@@ -1,10 +1,9 @@
-from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from . models import contents,genre,actor
+from . models import Contents,Genres,Actors
 # Register your models here.
 
-admin.site.register(contents)
-admin.site.register(genre)
-admin.site.register(actor)
+admin.site.register(Contents)
+admin.site.register(Genres)
+admin.site.register(Actors)

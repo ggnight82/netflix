@@ -12,6 +12,11 @@ class MyUserManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name
         )
+        user.is_staff = False
+        user.is_admin = False
+        user.is_superuser = False
+        user.is_active = True
+
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -28,6 +33,7 @@ class MyUserManager(BaseUserManager):
         user.is_staff = True
         user.is_admin = True
         user.is_superuser = True
+        user.is_active = True
 
         user.save(using=self._db)
         return user
@@ -68,3 +74,6 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return self.is_superuser
+
+    def get_user_token(self,user_pk):
+        return Token.objects.get_or_create(user_id=user_pk)

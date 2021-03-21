@@ -15,18 +15,19 @@ class UserAccountRegistrationSerializer(serializers.ModelSerializer):
             }
         }
 
-    def save(self):
+    def save(self,user):
         user = User(
             email=self.validated_data['email'],
             username=self.validated_data['username'],
             rating=self.validated_data['rating'],
             first_name=self.validated_data['first_name'],
             last_name=self.validated_data['last_name'],
-            is_admin=self.validated_data['is_admin'],
-            is_active=self.validated_data['is_active'],
-            is_superuser=self.validated_data['is_superuser']
+            #is_admin=self.validated_data['is_admin'],
+            #is_active=self.validated_data['is_active'],
+            #is_staff=self.validated_data['is_staff'],
+            #is_superuser=self.validated_data['is_superuser']
         )
-
+        
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
 
@@ -35,3 +36,5 @@ class UserAccountRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+#class LoginSerializers(serializers.Serializer):

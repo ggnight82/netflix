@@ -5,5 +5,5 @@ from . import models
 class ContentsSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = models.contents
+        model = models.Contents
         fields = '__all__'
